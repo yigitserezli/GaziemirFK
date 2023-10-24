@@ -1,0 +1,68 @@
+﻿@using Gfk.Mvc.Models.Entities;
+@model PlayerEntity
+
+<h2>Yeni Oyuncu Ekle</h2>
+
+<div class="d-flex justify-content-end">
+    <a asp-controller="Home" asp-action="Index" class="btn btn-danger">
+        <i id="pageButtonsFonts" class="fa-solid fa-backward fa-lg" style="color: #ffffff;"> Liste </i>
+    </a>
+</div>
+
+<div class="container d-inline-flex col-12 justify-content-center">
+    <form asp-action="Create" asp-controller="Home" method="post">
+        <div style="float: left;" class="col-5 offset-1">
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label">Ad:</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Surname" class="form-label">Soyad:</label>
+                <input asp-for="Surname" class="form-control" />
+                <span asp-validation-for="Surname" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="BornDate" class="form-label">Doğum Tarihi:</label>
+                <input asp-for="BornDate" class="form-control" />
+                <span asp-validation-for="BornDate" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Phone" class="form-label">GSM:</label>
+                <input asp-for="Phone" class="form-control" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+        </div>
+        <div style="float: right;" class="col-5 offset-1">
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label">E-Mail:</label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Note" class="form-label">Not: </label>
+                <input asp-for="Note" class="form-control" />
+                <span asp-validation-for="Note" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="ParentContact" class="form-label">Velisi: </label>
+                <input asp-for="ParentContact" class="form-control" />
+                <span asp-validation-for="ParentContact" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Licance" class="form-check-label">Lisans:  </label>
+                <input asp-for="Licance" class="form-check-input" />
+                <span asp-validation-for="Licance" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-danger">Kaydet</button>
+        </div>
+    </form>
+</div>
+
+
+
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

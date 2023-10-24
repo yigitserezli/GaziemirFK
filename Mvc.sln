@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34031.279
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gfk.Mvc", "Gfk.Mvc\Gfk.Mvc.csproj", "{3D885FE7-70EA-433C-9B3E-E41B9066D4FB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3D885FE7-70EA-433C-9B3E-E41B9066D4FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D885FE7-70EA-433C-9B3E-E41B9066D4FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D885FE7-70EA-433C-9B3E-E41B9066D4FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D885FE7-70EA-433C-9B3E-E41B9066D4FB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {74F196DE-3091-4D65-9E1D-EDED8ADBE5F0}
+	EndGlobalSection
+EndGlobal
