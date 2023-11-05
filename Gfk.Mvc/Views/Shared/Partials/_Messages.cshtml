@@ -1,0 +1,26 @@
+﻿<!-- Eğer ErrorMessage set edilmişse göster -->
+@if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+{
+    <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading">Hay Aksi!</h4>
+        <p>
+            @ViewBag.ErrorMessage
+        </p>
+        <hr>
+        <p class="mb-0">Gaziemir Futbol Kulübü Halı Saha Tesisleri : <a href="tel:02322517787">+90 (232) 251 77 87</a></p>
+    </div>
+}
+
+<!-- Eğer SuccessMessage set edilmişse göster -->
+@if (!string.IsNullOrEmpty(ViewBag.SuccessMessage))
+{
+
+    <div class="alert alert-success" role="alert">
+        <h4 class="alert-heading">Tebrikler!</h4>
+        <p>
+            @ViewBag.SuccessMessage
+        </p>
+        <hr>
+        <p class="mb-0">Gaziemir Futbol Kulübü Halı Saha Tesisleri : <a href="tel:02322517787">+90 (232) 251 77 87</a></p>
+    </div>
+}

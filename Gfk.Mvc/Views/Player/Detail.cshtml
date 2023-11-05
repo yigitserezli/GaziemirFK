@@ -1,0 +1,192 @@
+﻿@using Gfk.Mvc.Models.Entities
+@model PlayerEntity
+<!-- Player section-->
+<div class="container bg-light rounded text-white mt-3 mb-3" style="--bs-bg-opacity: .3;">
+    <section class="py-5 col-md-9 offset-md-1">
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="row gx-4 gx-lg-5 align-items-center justify-content-center">
+                <div class="col-md-5 col-5"><img class="card-img-top mb-5 mb-md-0 rounded-circle border border-danger" src="https://picsum.photos/600/600" alt="@Model.Name @Model.Surname " /></div>
+                <div class="col-md-6 col-7">
+                    <div class="small mb-1 ms-1">@Model.Category</div>
+                    <h1 class="display-5 fw-bolder">@Model.Name @Model.Surname </h1>
+                    <div class="fs-5 mb-5 ms-1">
+                        <span>@Model.Phone</span>
+                    </div>
+                    <dl class="dl-horizontal text-white">
+                        <dt class="col-sm-9">Doğum Tarihi</dt>
+                        <dd class="col-sm-9">@Model.BornDate.ToString("dd/MM/yyyy")</dd>
+
+                        <dt class="col-sm-9">E-Posta Adresi</dt>
+                        <dd class="col-sm-9">@Model.Email</dd>
+
+                        <dt class="col-sm-3">Lisans</dt>
+                        <dd class="col-sm-9">@Model.Licance</dd>
+
+                        <dt class="col-sm-9">Son Güncelleme Tarihi</dt>
+                        <dd class="col-sm-9">@Model.UptadetAt.ToString("dd/MM/yyyy - HH/mm/ss")</dd>
+                    </dl>
+                    <div class="d-flex">
+                        <div class="btn-group dropend">
+                            <button type="button" class="btn btn-danger btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                İşlemler
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Aidat Hatırlat</a></li>
+                                <li><a class="dropdown-item" href="#">Sms Gönder</a></li>
+                                <li><a class="dropdown-item" href="#">E-Posta Gönder</a></li>
+                                <li><a class="dropdown-item" href="#">Fotoğraf Ekle</a></li>
+                                <li><a class="dropdown-item" href="#">Fotoğraf Güncelle</a></li>
+                            </ul>
+                        </div>
+                        <button type="button" class="btn btn-danger btn-sm ms-1">Güncelle</button>
+                        <button type="button" class="btn btn-danger btn-sm ms-1">Kaydı Sil</button>
+                        <button type="button" class="btn btn-warning btn-sm ms-1" data-bs-toggle="modal" data-bs-target="#exampleModal" data-player-id="@Model.Id">More...</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Gaziemir Fk - <span id="category"></span></h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container bg-light rounded  mt-3 mb-3" style="--bs-bg-opacity: .3;">
+                    <section class="py-5 col-md-9 offset-md-1">
+                        <div class="container px-4 px-lg-5 my-5">
+                            <div class="row gx-4 gx-lg-5 align-items-center justify-content-center">
+                                <div class="col-md-5 col-5"><img class="card-img-top mb-5 mb-md-0 rounded-circle border border-danger" src="https://picsum.photos/600/600" /></div>
+                                <div class="col-md-6 col-7">
+                                    <div id="category" class="small mb-1 ms-1"></div>
+                                    <h1 id="nameSurname" class="display-5 fw-bolder"></h1>
+                                    <div class="fs-5 mb-5 ms-1">
+                                        <span id="phone"></span>
+                                    </div>
+                                    <dl class="dl-horizontal">
+                                        <dt class="col-sm-9">Doğum Tarihi</dt>
+                                        <dd id="bornDate" class="col-sm-9"></dd>
+
+                                        <dt class="col-sm-9">Kimlik No</dt>
+                                        <dd id="identification" class="col-sm-9"></dd>
+
+                                        <dt class="col-sm-9">E-Posta Adresi</dt>
+                                        <dd id="email" class="col-sm-9"></dd>
+
+                                        <dt class="col-sm-9">Lisans</dt>
+                                        <dd id="licance" class="col-sm-9"></dd>
+
+                                        <dt class="col-sm-9">Kullanılan Ayak</dt>
+                                        <dd id="foot" class="col-sm-9"></dd>
+
+                                        <dt class="col-sm-9">Not</dt>
+                                        <dd id="note" class="col-sm-9"></dd>
+
+                                        <dt class="col-sm-9">Adres</dt>
+                                        <dd id="address" class="col-sm-9"></dd>
+
+                                        <dt class="col-sm-9">Son Güncelleme Tarihi</dt>
+                                        <dd id="uptadetAt" class="col-sm-9"></dd>
+
+                                        <dt class="col-sm-9">Mail İzni</dt>
+                                        <dd id="mailPermission" class="col-sm-9"></dd>
+
+                                        <dt class="col-sm-9">Sms İzni</dt>
+                                        <dd id="smsPermission" class="col-sm-9"></dd>
+                                    </dl>
+                                    <div class="d-flex">
+                                        <div class="btn-group dropend">
+                                            <button type="button" class="btn btn-danger btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                                İşlemler
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" href="#">Aidat Hatırlat</a></li>
+                                                <li><a class="dropdown-item" href="#">Sms Gönder</a></li>
+                                                <li><a class="dropdown-item" href="#">E-Posta Gönder</a></li>
+                                                <li><a class="dropdown-item" href="#">Fotoğraf Ekle</a></li>
+                                                <li><a class="dropdown-item" href="#">Fotoğraf Güncelle</a></li>
+                                            </ul>
+                                        </div>
+                                        <button type="button" class="btn btn-danger btn-sm ms-1">Güncelle</button>
+                                        <button asp-controller="Player" asp-action="Delete" asp-route-id="@Model.Id" type="button" class="btn btn-danger btn-sm ms-1">Kaydı Sil</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button asp-controller="Player" asp-action="Update" asp-route-id="@Model.Id" type="button" class="btn btn-primary">Güncelle</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*<a asp-controller="Home" asp-action="Detail" asp-route-id="@player.Id" data-bs-toggle="modal" data-bs-target="#exampleModal" data-player-id="@player.Id"><span class="badge rounded-pill text-bg-danger">Detay</span></a>*@
+
+@section Scripts{
+
+    <script>$('#exampleModal').on('show.bs.modal', function (event) {
+            console.log("show bs tetiklendi");
+            var button = $(event.relatedTarget);
+            var playerId = button.data('player-id');
+            console.log(playerId);
+
+            $.ajax({
+                url: '/Player/DetailJson/' + playerId,
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#nameSurname').text(data.name + ' ' + data.surname);
+                    $('.modal-body img').attr('src', data.imageUrl);
+                    $('#phone').html(data.phone);
+                    $('#email').text(data.email);
+                    $('#identification').text(data.identification);
+                    $('#category').text(data.category);
+
+                    var bornDate = new Date(data.bornDate);
+                    var uptadetAt = new Date(data.uptadetAt);
+
+                    var optionsUpdate = {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        second: "2-digit"
+                    };
+
+                    var optionsBorn = {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric"
+                    };
+
+                    $('#bornDate').text(bornDate.toLocaleDateString("tr-TR", optionsBorn));
+                    $('#uptadetAt').text(uptadetAt.toLocaleDateString("tr-TR", optionsUpdate));
+
+                    $('#note').text(data.note);
+                    $('#licance').text(data.licance);
+                    $('#address').text(data.address);
+                    $('#foot').text(data.foot);
+                    $('#mailPermission').text(data.mailPermission ? 'Var' : 'Yok');
+                    $('#smsPermission').text(data.smsPermission ? 'Var' : 'Yok');
+                },
+                error: function () {
+                    console.log('Veri çekme hatası');
+                }
+            });
+        });</script>
+}
+
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajaxy/1.6.1/scripts/jquery.ajaxy.min.js" integrity="sha512-bztGAvCE/3+a1Oh0gUro7BHukf6v7zpzrAb3ReWAVrt+bVNNphcl2tDTKCBr5zk7iEDmQ2Bv401fX3jeVXGIcA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>

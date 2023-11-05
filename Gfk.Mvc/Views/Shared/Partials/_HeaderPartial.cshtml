@@ -1,0 +1,31 @@
+﻿            <!-- Header-->
+<header class="bg-dark py-5">
+    <div class="container px-5">
+        <div class="row gx-5 align-items-center justify-content-center">
+            <div class="col-lg-8 col-xl-7 col-xxl-6">
+                <div class="my-5 text-center text-xl-start">
+                    <h1 class="display-5 fw-bolder text-white mb-2">Gaziemir Fk Resmi Web Sitesi' ne Hoş Geldiniz...</h1>
+                    <p class="lead fw-normal text-white-50 mb-4">Altyapıya önem veren, İzmir' de her yaş grubunda adından söz ettirmiş ve başarılar elde etmiş, sadece fiziki ve teknik değil ahlaki olarak gelişime önem vermiş bir klüp.</p>
+                    <h1 class="display-4 fw-light text-white fs-4 mb-3">Sende şimdi hayallerine giden bu yolda bizimle yürümek istiyorsan, bize ulaş.</h1>
+                    <div class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xl-start">
+
+                        @{
+                            if (Context.Request.Cookies["UserName"] == null)
+                            {
+                                <a class="btn btn-danger btn-lg px-4 me-sm-3" asp-action="Login" asp-controller="Auth">Giriş</a>
+                                <a class="btn btn-outline-light btn-lg px-4" asp-action="Register" asp-controller="Auth">Kaydol</a>
+                            }
+                            else
+                            {
+                                <a class="btn btn-danger btn-lg" asp-action="About" asp-controller="Home">Hakkımızda</a>
+                            }
+                        }
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-5 col-xxl-6 d-none d-xl-block text-center"><img class="img-fluid rounded-3 my-5" src="~/img/4.JPEG" alt="..." /></div>
+        </div>
+    </div>
+</header>

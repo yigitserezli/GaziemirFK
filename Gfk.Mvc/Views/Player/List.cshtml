@@ -1,0 +1,142 @@
+﻿@using Gfk.Mvc.Models.Entities
+@model List<PlayerEntity>
+
+<h2>Oyuncu Bilgi Listesi</h2>
+
+<div class="d-flex justify-content-end">
+    <a asp-controller="Home" asp-action="CreatePlayer" class="btn btn-danger">
+        <i id="pageButtonsFonts" class="fa-solid fa-user-plus fa-lg" style="color: #ffffff;"> YENI KAYIT</i>
+    </a>
+</div>
+<div class="container">
+    <table class="table text-white">
+        <thead>
+            <tr>
+                <th>Ad - Soyad</th>
+                <th>Telefon</th>
+                <th>Yaş Kategorisi</th>
+                <th>Doğum Tarihi</th>
+                <th>Seçenekler</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var player in Model)
+            {
+                <tr>
+                    <td>@player.Name @player.Surname</td>
+                    <td>@player.Phone</td>
+                    <td>@player.Category</td>
+                    <td>@player.BornDate.ToString("dd/MM/yyyy")</td>
+                    <td>@player.UptadetAt.ToString("dd/MM/yyyy - HH/mm/ss")</td>
+                    <td>
+                        <a asp-controller="Player" asp-action="Detail" asp-route-id="@player.Id"©><span class="badge rounded-pill text-bg-danger">Detay</span></a>
+                        <a asp-controller="Parent" asp-action="CreateParent" asp-route-id="@player.Id"><span class="badge rounded-pill text-bg-danger">Düzenle</span></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container bg-light rounded  mt-3 mb-3" style="--bs-bg-opacity: .3;">
+                    <section class="py-5 col-md-9 offset-md-1">
+                        <div class="container px-4 px-lg-5 my-5">
+                            <div class="row gx-4 gx-lg-5 align-items-center justify-content-center">
+                                <div class="col-md-5 col-5"><img class="card-img-top mb-5 mb-md-0 rounded-circle border border-danger" src="https://picsum.photos/600/600"/></div>
+                                <div class="col-md-6 col-7">
+                                    <div id="category" class="small mb-1 ms-1"></div>
+                                    <h1 id="nameSurname" class="display-5 fw-bolder"></h1>
+                                    <div class="fs-5 mb-5 ms-1">
+                                        <span id="phone"></span>
+                                    </div>
+                                    <dl class="dl-horizontal">
+                                        <dt class="col-sm-9">Doğum Tarihi</dt>
+                                        <dd id="bornDate" class="col-sm-9"></dd>
+
+                                        <dt class="col-sm-9">E-Posta Adresi</dt>
+                                        <dd id="email" class="col-sm-9"></dd>
+
+                                        <dt class="col-sm-3">Lisans</dt>
+                                        <dd id="licance" class="col-sm-9"></dd>
+
+                                        <dt class="col-sm-9">Son Güncelleme Tarihi</dt>
+                                        <dd id="uptadetAt" class="col-sm-9"></dd>
+                                    </dl>
+                                    <div class="d-flex">
+                                        <div class="btn-group dropend">
+                                            <button type="button" class="btn btn-danger btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                                İşlemler
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" href="#">Aidat Hatırlat</a></li>
+                                                <li><a class="dropdown-item" href="#">Sms Gönder</a></li>
+                                                <li><a class="dropdown-item" href="#">E-Posta Gönder</a></li>
+                                                <li><a class="dropdown-item" href="#">Fotoğraf Ekle</a></li>
+                                                <li><a class="dropdown-item" href="#">Fotoğraf Güncelle</a></li>
+                                            </ul>
+                                        </div>
+                                        <button type="button" class="btn btn-danger btn-sm ms-1">Güncelle</button>
+                                        <button type="button" class="btn btn-danger btn-sm ms-1">Kaydı Sil</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@*<script>$('#exampleModal').on('show.bs.modal', function (event) {
+        
+        var button = $(event.relatedTarget);
+        var playerId = button.data('player-id'); // Tıklanan oyuncunun ID'sini al
+
+        // AJAX isteği yaparak oyuncu detaylarını al
+        $.ajax({
+            url: '/Home/Detail' + playerId, // GetPlayerDetails action'ının URL'si
+            type: 'GET',
+            dataType: 'json', // Gelen veri tipi JSON
+            success: function (data) {
+                // AJAX isteği başarılı olduğunda, modal içerisine verileri yerleştir
+                $('#nameSurname').text(data.name + ' ' + data.surname);
+                $('.modal-body img').attr('src', data.imageUrl);
+                $('#phone').text(data.phone);
+                $('#email').text(data.email);
+                $('.modal-title').text(data.identification);
+                $('#category').text(data.category);
+                $('#bornDate').text(data.bornDate);
+                $('.modal-title').text(data.note);
+                $('#licance').text(data.licance);
+                $('.modal-title').text(data.address);
+                $('.modal-title').text(data.foot);
+                $('#uptadetAt').text(data.uptadetAt);
+                $('.modal-title').text(data.mailPermission);
+                $('.modal-title').text(data.smsPermission);
+
+                // Diğer verileri de modal içerisine yerleştir
+            },
+            error: function () {
+                console.log('Veri çekme hatası');
+            }
+        });
+    });</script>*@

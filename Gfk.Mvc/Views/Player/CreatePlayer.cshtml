@@ -1,0 +1,112 @@
+﻿@using Gfk.Mvc.Models.Entities;
+@model PlayerEntity
+
+<h2>Yeni Oyuncu Ekle</h2>
+
+<div class="container d-block mb-5">
+    <div class="container col-9 justify-content-center bg-light pt-5 pb-5" style="border-radius:25px;">
+        <div class="d-block">
+            <div class="d-flex justify-content-end">
+                <a asp-controller="Player" asp-action="List" class="btn btn-danger">
+                    <i id="pageButtonsFonts" class="fa-solid fa-backward fa-lg" style="color: #ffffff;"> Liste </i>
+                </a>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center">
+            <form asp-action="CreatePlayer" asp-controller="Player" method="post">
+                <div style="float: left;" class="col-5 offset-1">
+                    <div class="mb-3">
+                        <label asp-for="Name" class="form-label">Ad:</label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Surname" class="form-label">Soyad:</label>
+                        <input asp-for="Surname" class="form-control" />
+                        <span asp-validation-for="Surname" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="BornDate" class="form-label">Doğum Tarihi:</label>
+                        <input asp-for="BornDate" class="form-control" />
+                        <span asp-validation-for="BornDate" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Phone" class="form-label">GSM:</label>
+                        <input asp-for="Phone" class="form-control" />
+                        <span asp-validation-for="Phone" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Address" class="form-label">Adres: </label>
+                        <textarea asp-for="Address" class="form-text" placeholder="Adres belirtiniz..." rows="2"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Licance" class="form-label">Lisans Durumu:</label>
+                        <select asp-for="Licance" class="form-select" aria-label="Small select example">
+                            <option class="fs-6" disabled selected>Seçiniz...</option>
+                            <option value="Var">Var</option>
+                            <option value="Yok">Yok</option>
+                            <option value="Filizlenmesi Gerek">Filiz</option>
+                            <option value="Transferi Yapılacak">Transfer</option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <div style="float: right;" class="col-5 offset-1">
+
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label">E-Mail:</label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Note" class="form-label">Not: </label>
+                        <input asp-for="Note" class="form-control" placeholder="Belirtmek istediğiniz not var ise giriniz..." />
+                        <span asp-validation-for="Note" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="IdentificationNumber" class="form-label">T.C Kimlik No:</label>
+                        <input asp-for="IdentificationNumber" class="form-control" />
+                        <span asp-validation-for="IdentificationNumber" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Foot" class="form-label">Kullandığı Ayak:</label>
+                        <select asp-for="Foot" class="form-select" aria-label="Small select example">
+                            <option class="fs-6" disabled selected>Seçiniz...</option>
+                            <option value="Sağ">Sağ</option>
+                            <option value="Sol">Sol</option>
+                        </select>
+                    </div>
+
+                    <div class="form-check form-switch mb-3">
+                        <input asp-for="MailPermission" class="form-check-input" />
+                        <label asp-for="MailPermission" class="form-check-label">Mail İzni:  </label>
+                        <span asp-validation-for="MailPermission" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-check form-switch mb-3">
+                        <label asp-for="SmsPermission" class="form-check-label">Sms İzni:  </label>
+                        <input asp-for="SmsPermission" class="form-check-input" />
+                        <span asp-validation-for="SmsPermission" class="text-danger"></span>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-danger">İlerle</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

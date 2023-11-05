@@ -1,4 +1,6 @@
-﻿using Gfk.Mvc.Helpers;
+﻿using System.Numerics;
+using Gfk.Mvc.Helpers;
+using Gfk.Mvc.Models;
 using Gfk.Mvc.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -18,77 +20,54 @@ namespace Gfk.Mvc.Controllers
         }
 
         [HttpGet]
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        [HttpGet]
         public IActionResult Landing()
         {
             return View();
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult AboutUs()
         {
-            var player = Db.Players.ToList();
-            return View(player);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> Create() 
-        {
-            var players = await Db.Players.ToListAsync();
             return View();
         }
 
-		[HttpPost]
-		public async Task<IActionResult> Create([FromForm] PlayerEntity player)
-		{
-            var playersList = await Db.Players.ToListAsync();
-            ViewBag.Players = playersList;
-
-            string ageCategory = _ageCategoryHelper.DetermineAgeCategory(player.BornDate);
-
-            player.Category = ageCategory;
-
-            if (!ModelState.IsValid)
-            {
-                ViewBag.ErrorMessage = "Lütfen  gerekli alanların hepsinin doldurulduğundan emin olun!";
-                return View(player);
-            }
-
-            Db.Players.Add(player);
-            await Db.SaveChangesAsync();
-
-            ViewBag.SuccessMessage = "Oyuncu başarılı şekilde kaydedilmiştir.";
-
-            return RedirectToAction("Index");
-		}
-
         [HttpGet]
-        public async Task<IActionResult> Detail([FromRoute] int id)
+        public IActionResult Contact()
         {
-            var playerDetail = await Db.Players.FirstOrDefaultAsync(x => x.Id == id);
-            ViewBag.Player = playerDetail;
+            return View();
+        }
 
-            if (playerDetail == null)
-            {
-                ViewBag.ErrorMessage = "Oyuncu bulunamadı.";
-                return View();
-            }
-
-            return View(playerDetail);
+        [HttpPost]
+        public IActionResult Contact([FromForm] ContactFormEntity model)
+        {
+            return View();
         }
 
         [HttpGet]
-        public async Task<IActionResult> Delete ([FromRoute] int id)
+        public IActionResult Privacy()
         {
-            var player = await Db.Players.FindAsync(id);
-            if(player == null)
-            {
-                return NotFound();
-            }
-
-            Db.Players.Remove(player);
-            await Db.SaveChangesAsync();
-
-            return RedirectToAction(nameof(Index));
+            return View();
         }
-	}
+
+        [HttpGet]
+        public async Task<IActionResult> WelcomeSession()
+        {
+            //Register sonrası sistem bizi aktivasyon ekranına yönlendirir. Aktivasyon sonrası karşılama mesajı buradan verilecek.
+
+            return View();
+        }
+
+
+
+
+
+
+
+    }
 }

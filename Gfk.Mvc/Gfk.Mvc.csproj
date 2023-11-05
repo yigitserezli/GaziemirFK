@@ -8,15 +8,35 @@
 
   <ItemGroup>
     <PackageReference Include="Bogus" Version="34.0.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.12" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.12" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.13" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.13" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.16" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="Helpers\" />
+    <None Remove="Views\Shared\Partials\" />
+    <None Remove="Views\Privacy\" />
+    <None Remove="Views\Player\" />
+    <None Remove="Views\Parent\" />
+    <None Remove="Services\" />
+    <None Remove="Views\Auth\" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Areas\Admin\Controllers\" />
+    <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\Admin\Views\" />
+    <Folder Include="Areas\User\Controllers\" />
+    <Folder Include="Areas\User\Data\" />
+    <Folder Include="Areas\User\Models\" />
+    <Folder Include="Areas\User\Views\" />
     <Folder Include="Helpers\" />
+    <Folder Include="Views\Shared\Partials\" />
+    <Folder Include="Views\Privacy\" />
+    <Folder Include="Views\Player\" />
+    <Folder Include="Views\Parent\" />
+    <Folder Include="Services\" />
+    <Folder Include="Views\Auth\" />
   </ItemGroup>
 </Project>

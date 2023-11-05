@@ -1,0 +1,105 @@
+﻿@model RegisterViewModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+
+
+
+<!-- Section: Design Block -->
+<section class="vh-100 text-center">
+    <!-- Background image -->
+    <div class="p-5 bg-image" style="
+          background-image: url('https://images.pexels.com/photos/8100784/pexels-photo-8100784.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
+          height: 300px;
+          "></div>
+    <!-- Background image -->
+    <div class="container">
+        <div class="card mx-4 mx-md-5 shadow-5-strong" style="
+          margin-top: -100px;
+          background: hsla(0, 0%, 100%, 0.8);
+          backdrop-filter: blur(30px);
+          ">
+            <div class="card-body py-5 px-md-5">
+
+                <div class="row d-flex justify-content-center">
+                    <div class="col-lg-8">
+                        <partial name="~/Views/Shared/Partials/_Messages.cshtml" />
+                        <h2 class="fw-bold mb-5">Kayıt Ol</h2>
+                        <form asp-controller="Auth" asp-action="Register" method="post">
+                            <!-- 2 column grid layout with text inputs for the first and last names -->
+                            <div class="row justify-content-center">
+                                <div class="col-md-4 mb-4">
+                                    <div class="form-outline">
+                                        <input asp-for="Name" class="form-control" placeholder="Adınız..." />
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-2">
+                                    <div class="form-outline">
+                                        <input asp-for="Surname" class="form-control" placeholder="Soyadınız..." />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 2 column grid layout with text inputs for the Phone and Email -->
+                            <div class="row justify-content-center">
+                                <div class="col-md-4 mb-2">
+                                    <!-- Email input -->
+                                    <div class="form-outline mb-2">
+                                        <input asp-for="Email" class="form-control" placeholder="E-Posta adresiniz..." />
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-2">
+                                    <div class="form-outline">
+                                        <input asp-for="Phone" class="form-control" placeholder="Cep telefonu numaranız..."/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row justify-content-center mb-4">
+                                <!-- Password input -->
+                                <div class="col-md-4 form-outline">
+                                    <input asp-for="Password" class="form-control" placeholder="Şifreniz..."/>
+                                </div>
+
+                                <div class="col-md-4 form-outline">
+                                    <input asp-for="PasswordConfirm" class="form-control" placeholder="Şifrenizi tekrar girin..." />
+                                </div>
+                            </div>
+
+                            <!-- Checkbox -->
+                            <div class="form-check d-flex justify-content-center mb-4">
+                                <input asp-for="KVKK" class="form-check-input me-2" checked />
+                                <label asp-for="KVKK" class="form-check-label" for="form2Example33">Kvkk İletişim Onayı</label>
+                            </div>
+
+                            <!-- Submit button -->
+                            <button type="submit" class="btn btn-primary btn-block mb-4"> Kayıt Ol </button>
+
+                            <!-- Register buttons -->
+                            <div class="text-center">
+                                <p>yada</p>
+                                <button type="button" class="btn btn-link btn-floating mx-1">
+                                    <i class="bi bi-facebook"></i>
+                                </button>
+
+                                <button type="button" class="btn btn-link btn-floating mx-1">
+                                    <i class="bi bi-google"></i>
+                                </button>
+
+                                <button type="button" class="btn btn-link btn-floating mx-1">
+                                    <i class="bi bi-twitter"></i>
+                                </button>
+
+                                <button type="button" class="btn btn-link btn-floating mx-1">
+                                    <i class="bi bi-github"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Section: Design Block -->
