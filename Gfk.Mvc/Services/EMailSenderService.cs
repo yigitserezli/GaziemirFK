@@ -13,7 +13,7 @@ namespace Gfk.Mvc.Services
 
         public IConfiguration Configuration { get; }
 
-        public async Task SendEmailAsync(string to, string subject, string confirmUrl, string cancelingUrl, string activationCode)
+        public async Task SendEmailAsync(string to, string subject, string confirmUrl, string cancelingUrl, string activationCode, string tokenActivationCode)
         {
             var htmlContent = GenerateEmailTemplate(confirmUrl, cancelingUrl, activationCode);
 

@@ -1,0 +1,87 @@
+﻿@using Gfk.Mvc.Models.Entities;
+@model List<PaymentEntity>
+@{
+    var players = ViewData["Players"] as List<PlayerEntity>;
+    var filteredPayments = ViewData["FilteredPayments"] as List<PaymentEntity>;
+
+    var orderedPlayersByName = players.OrderBy(p => p.Name).ThenBy(p => p.Surname).ToList();
+    var uniqueCategories = players.Select(p => p.Category).Distinct().OrderBy(c => c).ToList();
+    var orderedPlayersByDate = players.OrderByDescending(p => p.BornDate).ToList();
+}
+
+<form asp-action="FilterPayments" asp-controller="Payment" method="get" class="container text-center">
+    <!--First Section-->
+    <div class="form-group row">
+        <!--Select Category Here-->
+        <select class="form-select col">
+            <option selected disabled class="text-center">Yaş Kategorisi...</option>
+            @foreach (var category in uniqueCategories)
+            {
+                <option value="@category">@category</option>
+
+            }
+        </select>
+        <!--Finish Filter-->
+        <!--Select Name-Surname Here-->
+        <select class="form-select col mx-1">
+            <option selected disabled class="text-center">Ad Soyad...</option>
+            @foreach (var player in orderedPlayersByName)
+            {
+                <option value="@player.Name @player.Surname">@player.Name @player.Surname</option>
+
+            }
+        </select>
+        <!--Finish Filter-->
+        <!--Select BornDate Here-->
+        <select class="form-select col">
+            <option selected disabled class="text-center">Doğum Tarihi...</option>
+            @foreach (var player in orderedPlayersByDate)
+            {
+                <option value="@player.BornDate.ToString("yyyy")">@player.BornDate.ToString("yyyy")</option>
+
+            }
+        </select>
+        <!--Finish Filter-->
+    </div>
+    <!-- Submit button -->
+    <div class="form-group container d-flex justify-content-center align-items-center mt-3">
+        <button type="submit" class="btn btn-danger">Filtrele</button>
+    </div>
+</form>
+
+<!-- Table for displaying filtered results -->
+<table class="table table-striped mt-5 text-white">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Ad Soyad</th>
+            <th scope="col">Yaş Kategorisi</th>
+            <th scope="col">Doğum Tarihi</th>
+            <th scope="col">Lisans</th>
+            <th scope="col">Ödenme Durumu</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Dynamic row insertion based on filtered results -->
+        @if (filteredPayments != null)
+        {
+            foreach (var payment in filteredPayments)
+            {
+                <tr>
+                    <th scope="row">@payment.Id</th>
+                    <td>@payment.Player.Name @payment.Player.Surname</td>
+                    <td>@payment.Player.Category</td>
+                    <td>@payment.Player.BornDate.ToString("dd/MM/yyyy")</td>
+                    <td>@payment.Player.Licance</td>
+                    <td>@(payment.IsPaid ? "Ödendi" : "Ödenmedi")</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="7" class="text-center text-white">Ödeme bilgisi bulunamadı.</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -15,6 +15,8 @@ namespace Gfk.Mvc.Models
 		[MinLength(6), MaxLength(6)]
 		public string verificationCode { get; set; } = string.Empty;
 
+		public string tokenVerificationCode { get; set; } = string.Empty;
+
         public int UserId { get; set; }
 
 		[ForeignKey(nameof(UserId))]

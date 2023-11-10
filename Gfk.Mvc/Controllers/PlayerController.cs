@@ -1,5 +1,6 @@
 ﻿using System;
 using Gfk.Mvc.Helpers;
+using Gfk.Mvc.Models;
 using Gfk.Mvc.Models.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -8,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Gfk.Mvc.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class PlayerController : Controller
     {
         public AppDbContext _dbContext { get; }
@@ -23,10 +24,55 @@ namespace Gfk.Mvc.Controllers
         }
 
         [HttpGet]
-        public IActionResult List()
+        public async Task<IActionResult> List(string searchString, string category, string licance, string foot, string identificationNumber, bool? kvkk, int page = 1, int pageSize = 12)
         {
-            var player = _dbContext.Players.ToList();
-            return View(player);
+            //Begining of the query
+            var query = _dbContext.Players.AsQueryable();
+
+            // Searching and filtering conditions
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                query = query.Where(p => p.Name.Contains(searchString)
+                                         || p.Surname.Contains(searchString)
+                                         || p.Email.Contains(searchString)
+                                         || p.IdentificationNumber.Contains(searchString));
+            }
+
+            if (!string.IsNullOrEmpty(category))
+            {
+                query = query.Where(p => p.Category == category);
+            }
+            if (!string.IsNullOrEmpty(licance))
+            {
+                query = query.Where(p => p.Licance == licance);
+            }
+            if (kvkk.HasValue)
+            {
+                query = query.Where(p => p.Kvkk == kvkk.Value);
+            }
+
+            // Pagination
+            var totalItems = await query.CountAsync();
+            var items = await query.OrderBy(p => p.Id)
+                                   .Skip((page - 1) * pageSize)
+                                   .Take(pageSize)
+                                   .ToListAsync();
+
+            var result = new PlayerPaginationViewModel<PlayerEntity>
+            {
+                Items = items,
+                TotalItems = totalItems,
+                CurrentPage = page,
+                PageSize = pageSize,
+                SearchString = searchString,
+                Category = category,
+                Licance = licance,
+                Foot = foot,
+                IdentificationNumber = identificationNumber,
+                Kvkk = kvkk
+            };
+
+            return View(result);
         }
 
         [HttpGet]
@@ -95,10 +141,8 @@ namespace Gfk.Mvc.Controllers
                     note = playerDetail.Note,
                     licance = playerDetail.Licance,
                     address = playerDetail.Address,
-                    foot = playerDetail.Foot,
                     uptadetAt = playerDetail.UptadetAt,
-                    mailPermission = playerDetail.MailPermission,
-                    smsPermission = playerDetail.SmsPermission
+                    kvkk = playerDetail.Kvkk,
                 });
             }
 

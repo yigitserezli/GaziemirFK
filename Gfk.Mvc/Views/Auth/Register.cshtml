@@ -28,49 +28,59 @@
                         <h2 class="fw-bold mb-5">Kayıt Ol</h2>
                         <form asp-controller="Auth" asp-action="Register" method="post">
                             <!-- 2 column grid layout with text inputs for the first and last names -->
-                            <div class="row justify-content-center">
-                                <div class="col-md-4 mb-4">
-                                    <div class="form-outline">
-                                        <input asp-for="Name" class="form-control" placeholder="Adınız..." />
+                            <div class="row justify-content-center align-items-center">
+                                <div class="col-md-6 col-sm-9">
+                                    <div class="form-floating">
+                                        <input asp-for="Name" class="form-control" id="floatingInput" placeholder="Ad">
+                                        <label asp-for="Name">Adınız</label>
                                     </div>
                                 </div>
-                                <div class="col-md-4 mb-2">
-                                    <div class="form-outline">
-                                        <input asp-for="Surname" class="form-control" placeholder="Soyadınız..." />
+                                <div class="col-md-6 col-sm-9">
+                                    <div class="form-floating">
+                                        <input asp-for="Surname" class="form-control" id="floatingInput" placeholder="Surname">
+                                        <label asp-for="Surname">Soyadınız</label>
                                     </div>
                                 </div>
                             </div>
-
+                            <hr />
                             <!-- 2 column grid layout with text inputs for the Phone and Email -->
                             <div class="row justify-content-center">
-                                <div class="col-md-4 mb-2">
+                                <div class="col-md-6 col-sm-9">
                                     <!-- Email input -->
-                                    <div class="form-outline mb-2">
-                                        <input asp-for="Email" class="form-control" placeholder="E-Posta adresiniz..." />
+                                    <div class="form-floating">
+                                        <input asp-for="Email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                                        <label asp-for="Email">E-Posta Adresiniz</label>
                                     </div>
                                 </div>
-                                <div class="col-md-4 mb-2">
-                                    <div class="form-outline">
-                                        <input asp-for="Phone" class="form-control" placeholder="Cep telefonu numaranız..."/>
+                                <div class="col-md-6 col-sm-9">
+                                    <div class="form-floating">
+                                        <input asp-for="Phone" class="form-control" id="floatingInput" placeholder="Phone">
+                                        <label asp-for="Phone">Telefon Numaranız</label>
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="row justify-content-center mb-4">
+                            <hr />
+                            <div class="row justify-content-center">
                                 <!-- Password input -->
-                                <div class="col-md-4 form-outline">
-                                    <input asp-for="Password" class="form-control" placeholder="Şifreniz..."/>
+                                <div class="col-md-6 col-sm-9">
+                                    <div class="form-floating">
+                                        <input asp-for="Password" class="form-control" id="floatingInput" placeholder="Ad">
+                                        <label asp-for="Password">Şifre</label>
+                                    </div>
                                 </div>
-
-                                <div class="col-md-4 form-outline">
-                                    <input asp-for="PasswordConfirm" class="form-control" placeholder="Şifrenizi tekrar girin..." />
+                                <div class="col-md-6 col-sm-9">
+                                    <div class="form-floating">
+                                        <input asp-for="PasswordConfirm" class="form-control" id="floatingInput" placeholder="Ad">
+                                        <label asp-for="PasswordConfirm">Tekrar Girin</label>
+                                    </div>
                                 </div>
                             </div>
-
+                            <hr />
                             <!-- Checkbox -->
-                            <div class="form-check d-flex justify-content-center mb-4">
+                            <div class="form-check d-flex justify-content-center mb-4 align-items-center">
                                 <input asp-for="KVKK" class="form-check-input me-2" checked />
                                 <label asp-for="KVKK" class="form-check-label" for="form2Example33">Kvkk İletişim Onayı</label>
+                                <button class="btn btn-outline-primary ms-5" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasStart" aria-controls="offcanvasStart">Kvkk İletişim Şartları</button>
                             </div>
 
                             <!-- Submit button -->
@@ -103,3 +113,81 @@
     </div>
 </section>
 <!-- Section: Design Block -->
+
+<div class="offcanvas offcanvas-start text-bg-danger text-white" tabindex="-1" id="offcanvasStart" aria-labelledby="offcanvasStartLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasStartLabel">ÇEREZLERE DAİR AYDINLATMA METNİ</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body small">
+        <p>
+            Bu metin, 6698 sayılı Kişisel Verilerin Korunması Kanunu’nun (Kanun) 10’uncu maddesi ile
+            Aydınlatma Yükümlülüğünün Yerine Getirilmesinde Uyulacak Usul ve Esaslar Hakkında
+            Tebliğ kapsamında veri sorumlusu sıfatıyla Kişisel Verileri Koruma Kurumu tarafından
+            (Nasuh Akar Mahallesi 1407. Sok. No:4, 06520 Çankaya/Ankara) tarafından hazırlanmıştır.
+        </p>
+        <p>
+            Bu Çerez Aydınlatma Metni’nin amacı, internet sitemizde kullanılan çerezlerin cihazınıza
+            yerleştirilmesi aracılığıyla otomatik yolla elde edilen kişisel verilerin işlenmesine ilişkin
+            olarak, hangi amaçlarla hangi tür çerezleri kullandığımız, hukuki sebebi ve haklarınız
+            hakkında sizlere bilgi vermektir.
+        </p>
+        <p>
+            İnternet sitemizde yalnızca hizmetin sağlanması için kesinlikle gerekli olarak birinci taraf
+            oturum ve kalıcı çerezler kullanılmaktadır.
+        </p>
+        <hr />
+        <h6>Çerez Çeşitleri</h6>
+        <p>
+            <strong>Kullanım süresine göre çerez çeşitleri:</strong> Oturum çerezi, oturumun sürekliliğinin sağlanması
+            amacıyla kullanılmakta olup kullanıcı tarayıcısını kapattığında bu çerezler de silinmektedir.
+            Kalıcı çerez ise internet tarayıcısı kapatıldığı zaman silinmemekte ve belirli bir tarihte veya
+            belirli bir süre sonra kendiliğinden silinmektedir. Bu çerçevede, internet sitemizde kullanım
+            sürelerine göre oturum ve kalıcı çerezler kullanılmaktadır.
+        </p>
+        <p>
+            <strong>Birinci taraf ve üçüncü taraf çerezler:</strong>Birinci taraf çerezler, doğrudan kullanıcının ziyaret
+            ettiği internet sitesi yani tarayıcının adres çubuğunda gösterilen adres tarafından
+            yerleştirilmektedir. Üçüncü taraf çerezlerse, kullanıcının ziyaret ettiği adres dışında farklı bir
+            etki alanı tarafından yerleştirilmektedir. Bu çerçevede, internet sitemizde yalnızca birinci taraf
+            çerez kullanılmaktadır.
+        </p>
+        <p>
+            <strong>
+                Kullanım amaçlarına göre çerez çeşitleri: Çerezler kullanım amaçlarına göre kesinlikle
+                gerekli, işlevsel veya reklam/pazarlama gibi amaçlarla kullanılabilmektedir. Bu
+                çerçevede, internet sitemizde açıkça talep etmiş olduğunuz
+            </strong>
+            bilgi toplum hizmetlerinin
+            sunulabilmesi için kesinlikle gerekli çerezler kullanılmaktadır. Bu kapsamda,
+        </p>
+        <p>
+            A) İnternet sayfasında internet sayfasına, sonradan gelen isteklerin güvenilir olup olmadığını
+            anlamak amacıyla <i>cookiesession1</i> isimli birinci taraf kalıcı çerezini (bir yıl
+            saklanmaktadır),
+        </p>
+        <p>
+            B) Ziyaretçilerin web sayfasını hangi dilde görüntülediği tespit edebilmek amacıyla
+            <i>ASP.NET_SessionId</i> isimli birinci taraf oturum çerezini,
+        </p>
+        <p>
+            C) Çerez aydınlatma metninin okunduğunun teyidi amacıyla <i>cookiepolicy_status</i> isimli
+            birinci taraf kalıcı çerezini (bir yıl saklanmaktadır.)
+        </p>
+        <p>
+            IP bilgilerinizle ilişkilendirmek suretiyle kişisel verileriniz işlenmektedir. Söz konusu kişisel
+            verileriniz başka veri sorumlularına aktarılmamaktadır.
+        </p>
+        <p>
+            Söz konusu çerezler yoluyla kişisel verilerin işlenmesinde 6698 sayılı Kişisel Verilerin
+            Korunması Kanunu’nun 5’inci maddesinin ikinci fıkrasının (f) bendi uyarınca “İlgili kişinin
+            temel hak ve özgürlüklerine zarar vermemek kaydıyla veri sorumlusunun meşru menfaatleri
+            için veri işlenmesinin zorunlu olması” işleme şartına dayanılmaktadır.
+        </p>
+        <p>
+            6698 sayılı Kanun’un “ilgili kişinin haklarını düzenleyen” 11’inci maddesi kapsamındaki
+            taleplerinizi, <a href="https://www.mevzuat.gov.tr/mevzuat?MevzuatNo=24455&MevzuatTur=9&MevzuatTertip=5">Veri Sorumlusuna Başvuru Usul ve Esasları Hakkında Tebliğ’e</a> göre Kişisel
+            Verileri Koruma Kurumuna iletebilirsiniz
+        </p>
+    </div>
+</div>

@@ -44,14 +44,9 @@ namespace Gfk.Mvc.Models.Entities
         [MaxLength(200)]
         public string Address = string.Empty;
 
-        [Required]
-        public string Foot { get; set; } = string.Empty;
-
         public DateTime UptadetAt { get; set; }
 
-        public bool MailPermission { get; set; }
-
-        public bool SmsPermission { get; set; }
+        public bool Kvkk { get; set; }
 
         
     }

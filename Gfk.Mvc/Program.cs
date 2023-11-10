@@ -16,7 +16,7 @@ builder.Services
         options.LogoutPath = "/Auth/Logout";
         options.Cookie.Name = "GFKCookies";
         options.AccessDeniedPath = "/Auth/AccessDenied";
-        options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+        options.ExpireTimeSpan = TimeSpan.FromDays(30);
     });
 
 builder.Services.AddSession();

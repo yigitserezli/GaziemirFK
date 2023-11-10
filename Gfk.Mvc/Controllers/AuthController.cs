@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration.UserSecrets;
+using static Gfk.Mvc.Services.RegistrationService;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -47,14 +48,17 @@ namespace Gfk.Mvc.Controllers
         [HttpGet]
         public IActionResult Login()
         {
+
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel loginViewModel, [FromQuery] string? returnUrl)
+        public async Task<IActionResult> Login(LoginViewModel loginViewModel)
         {
+
             if (!ModelState.IsValid)
             {
+                ViewBag.ErrorMessage = "Form valid değil keke";
                 return View();
             }
 
@@ -83,6 +87,7 @@ namespace Gfk.Mvc.Controllers
             {
                 new Claim(ClaimTypes.Name, user.Name),
                 new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Role, user.Role),
             };
 
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -108,7 +113,7 @@ namespace Gfk.Mvc.Controllers
                 HttpOnly = true
             });
 
-            return returnUrl == null ? RedirectToAction("Index", "Home") : Redirect(returnUrl);
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]
@@ -148,24 +153,27 @@ namespace Gfk.Mvc.Controllers
             {
                 ViewBag.ErrorMessage = "İki farklı şifre girdiniz, bir daha deneyiniz.";
                 ModelState.Clear();
-                return View();
+                return View(model);
             }
 
-            var activationCode = await _registration.RegisterAsync(model.Name, model.Surname, model.Password, model.PasswordConfirm, model.KVKK, model.Email, model.Phone);
+            var registrationResult = await _registration.RegisterAsync(model.Name, model.Surname, model.Password, model.PasswordConfirm, model.KVKK, model.Email, model.Phone);
+
+            var tokenActivationCode = registrationResult.TokenActivationCode;
+            var activationCode = registrationResult.ActivationCode;
 
             var confirmationUrl = Url.Action(nameof(Confirm),
                 "Auth",
-                new { id = activationCode },
+                new { id = tokenActivationCode },
                 Request.Scheme,
                 Request.Host.ToString());
 
             var cancelingUrl = Url.Action(nameof(ContactPermissionCanceling),
                 "Auth",
-                new { id = activationCode },
+                new { id = tokenActivationCode },
                 Request.Scheme,
                 Request.Host.ToString());
 
-            await _mailSender.SendEmailAsync(model.Email, "Hesap Onayı", confirmationUrl, cancelingUrl, activationCode);
+            await _mailSender.SendEmailAsync(model.Email, "Hesap Onayı", confirmationUrl, cancelingUrl, activationCode, tokenActivationCode);
 
             ViewBag.SuccessMessage = "Kayıt işlemi başarılı. Hesabınızı onayladıktan sonra giriş yapabilirsiniz.";
             ModelState.Clear();
@@ -174,14 +182,14 @@ namespace Gfk.Mvc.Controllers
         }
 
         [HttpGet]
-        public IActionResult Confirm([FromRoute] string code)
+        public async Task<IActionResult> Confirm([FromRoute] string tokenActivationCode)
         {
-            var user = _dbContext.Users.SingleOrDefault(x => x.ActivationCode == code);
+            var user = _dbContext.Users.SingleOrDefaultAsync(x => x.TokenActivationCode == tokenActivationCode);
 
-            if (user is not null)
+            if (user is null)
             {
-                var userMail = user.Email;
-                ViewBag.UserMail = userMail;
+                ViewBag.ErrorMessage = "Kullanıcı bulunamadı.";
+                return View();
             }
 
             return View();
@@ -190,50 +198,37 @@ namespace Gfk.Mvc.Controllers
         [HttpPost]
         public async Task<IActionResult> Confirm([FromRoute] string id, [FromForm] ActivationAccountViewModel model)
         {
-            var activationCode = id;
+            var tokenActivationCode = id;
 
 
-            if (activationCode is null)
+            if (tokenActivationCode is null)
             {
-                activationCode = model.User?.ActivationCode;
+                tokenActivationCode = model.User?.TokenActivationCode;
 
             }
-            if (string.IsNullOrWhiteSpace(activationCode))
+            if (string.IsNullOrWhiteSpace(tokenActivationCode))
             {
                 ViewBag.ErrorMessage = "Hatalı kod";
                 return View();
             }
 
-            var activationCodeFromModel = model.verificationCode;
-            if (int.Parse(activationCode) != int.Parse(activationCodeFromModel))
-            {
-                ViewBag.ErrorMessage = "Hatalı giriş yaptınız, tekrar deneyiniz.";
-                return View();
-            }
+            var tokenActivationCodeFromModel = model.tokenVerificationCode;
 
-            var user = await _dbContext.Users.SingleOrDefaultAsync(x => x.ActivationCode == activationCode);
+            var user = await _dbContext.Users.SingleOrDefaultAsync(x => x.ActivationCode == model.verificationCode);
             if (user is null)
             {
                 ViewBag.ErrorMessage = "Hatalı kod";
                 return View();
             }
 
+            if(model.verificationCode != user.ActivationCode)
+            {
+                ViewBag.ErrorMessage = "Kodlar doğru bir şekilde eşleşmedi. Destek ile irtibate geçiniz.";
+                return View();
+            }
+
             int tempNo = 0;
             user.ActivationCode = tempNo.ToString();
-
-            var users = await _dbContext.Users.ToListAsync();
-            int userId = int.Parse(id);
-
-            var userIdFunc = users.FirstOrDefault(x => x.Id == userId);
-
-            if (userIdFunc is not null)
-            {
-                ViewBag.UserName = userIdFunc?.Name;
-            }
-            else
-            {
-                ViewBag.UserName = "Kullanıcı bulunamadı"; // Kullanıcı bulunamazsa varsayılan bir değer ata.
-            }
 
             if (user.ActivationCode == "0")
             {
@@ -250,51 +245,64 @@ namespace Gfk.Mvc.Controllers
 
         [Authorize]
         [HttpGet]
-        public IActionResult ContactPermissionCanceling()
+        public async Task<IActionResult> ContactPermissionCanceling()
         {
-            return View();
+            var emailAddress = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
+
+            var user = !string.IsNullOrEmpty(emailAddress)
+                ? await _dbContext.Users.SingleOrDefaultAsync(u => u.Email == emailAddress)
+                : null;
+
+            var model = user ?? new UserEntity();
+
+            return View(model);
         }
 
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> ContactPermissionCanceling([FromForm] UserEntity userEntity)
         {
-            var emailAddress = userEntity.Email;
-
-            if (string.IsNullOrWhiteSpace(emailAddress))
+            if (User.Identity.IsAuthenticated)
             {
-                ViewBag.ErrorMessage = "Lütfen bir elektronik posta adresi girin.";
-                ModelState.Clear();
+                var emailAddress = userEntity.Email;
+
+                if (string.IsNullOrWhiteSpace(emailAddress))
+                {
+                    ViewBag.ErrorMessage = "Lütfen bir elektronik posta adresi girin.";
+                    ModelState.Clear();
+                    return View();
+                }
+
+                var user = await _dbContext.Users.SingleOrDefaultAsync(x => x.Email == emailAddress);
+                if (user is null)
+                {
+                    ViewBag.ErrorMessage = "Böyle bir maile kayıtlı kullanıcı bulunamadı.";
+                    ModelState.Clear();
+                    return View();
+                }
+
+                if (user.Email != HttpContext.Request.Cookies["EmailAddress"] && HttpContext.Request.Cookies["EmailAddress"] == null)
+                {
+                    ViewBag.ErrorMessage = "Lütfen kendi e-posta adresinizi girin";
+                    ModelState.Clear();
+                    return View();
+                }
+
+                if (user.KVKK == false)
+                {
+                    ViewBag.ErrorMessage = "Zaten iletişim izinlerini iptal ettiniz. Hala sorun yaşıyor iseniz info@gaziemirfk.com adresi ile iletişime geçebilirsiniz.";
+                    ModelState.Clear();
+                    return View();
+                }
+
+                user.CancelationCode = "0";
+                user.KVKK = false;
+
+                await _dbContext.SaveChangesAsync();
+                ViewBag.SuccessMessage = "İletişim izinleri başarılı şekilde iptal edilmiştir. Bundan sonra kulübümüz tarafından sizlere tanıtım ve duyuru elektronik postası iletilmeyecektir.";
                 return View();
             }
 
-            var user = await _dbContext.Users.SingleOrDefaultAsync(x => x.Email == emailAddress);
-            if(user is null)
-            {
-                ViewBag.ErrorMessage = "Böyle bir maile kayıtlı kullanıcı bulunamadı.";
-                ModelState.Clear();
-                return View();
-            }
-
-            if(user.Email != HttpContext.Request.Cookies["EmailAddress"] && HttpContext.Request.Cookies["EmailAddress"] == null)
-            {
-                ViewBag.ErrorMessage = "Lütfen kendi e-posta adresinizi girin";
-                ModelState.Clear();
-                return View();
-            }
-
-            if(user.KVKK == false)
-            {
-                ViewBag.ErrorMessage = "Zaten iletişim izinlerini iptal ettiniz. Hala sorun yaşıyor iseniz info@gaziemirfk.com adresi ile iletişime geçebilirsiniz.";
-                ModelState.Clear();
-                return View();
-            }
-
-            user.CancelationCode = "0";
-            user.KVKK = false;
-
-            await _dbContext.SaveChangesAsync();
-            ViewBag.SuccessMessage = "İletişim izinleri başarılı şekilde iptal edilmiştir. Bundan sonra kulübümüz tarafından sizlere tanıtım ve duyuru elektronik postası iletilmeyecektir.";
             return View();
         }
 

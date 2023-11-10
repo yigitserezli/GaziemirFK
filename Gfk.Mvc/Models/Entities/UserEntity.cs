@@ -19,7 +19,7 @@ namespace Gfk.Mvc.Models.Entities
         [Required, MinLength(2)]
         public string Surname { get; set; } = string.Empty;
 
-        [Required, Phone, MinLength(10), MaxLength(10)]
+        [Required, Phone]
         public string Phone { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Bu alan gerekli"), EmailAddress]
@@ -35,7 +35,11 @@ namespace Gfk.Mvc.Models.Entities
 
         public string ActivationCode { get; set; } = string.Empty;
 
+        public string TokenActivationCode { get; set; } = string.Empty;
+
         public string CancelationCode { get; set; } = string.Empty;
+
+        public string Role { get; set; } = default!;
     }
 }
 

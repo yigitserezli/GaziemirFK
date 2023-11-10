@@ -21,6 +21,7 @@
     <None Remove="Views\Parent\" />
     <None Remove="Services\" />
     <None Remove="Views\Auth\" />
+    <None Remove="Views\Payment\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Admin\Controllers\" />
@@ -38,5 +39,6 @@
     <Folder Include="Views\Parent\" />
     <Folder Include="Services\" />
     <Folder Include="Views\Auth\" />
+    <Folder Include="Views\Payment\" />
   </ItemGroup>
 </Project>

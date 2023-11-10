@@ -1,111 +1,83 @@
-﻿@using Gfk.Mvc.Models.Entities;
+﻿
+@using Gfk.Mvc.Models.Entities;
 @model PlayerEntity
 
 <h2>Yeni Oyuncu Ekle</h2>
 
-<div class="container d-block mb-5">
-    <div class="container col-9 justify-content-center bg-light pt-5 pb-5" style="border-radius:25px;">
-        <div class="d-block">
-            <div class="d-flex justify-content-end">
-                <a asp-controller="Player" asp-action="List" class="btn btn-danger">
-                    <i id="pageButtonsFonts" class="fa-solid fa-backward fa-lg" style="color: #ffffff;"> Liste </i>
-                </a>
-            </div>
+<div class="container mb-5">
+    <div class="bg-light p-5 mb-5" style="border-radius:25px;">
+        <div class="mb-3 text-end">
+            <a asp-controller="Player" asp-action="List" class="btn btn-danger">
+                <i class="fa-solid fa-backward fa-lg"></i> Liste
+            </a>
         </div>
-        <div class="d-flex justify-content-center">
-            <form asp-action="CreatePlayer" asp-controller="Player" method="post">
-                <div style="float: left;" class="col-5 offset-1">
-                    <div class="mb-3">
-                        <label asp-for="Name" class="form-label">Ad:</label>
-                        <input asp-for="Name" class="form-control" />
-                        <span asp-validation-for="Name" class="text-danger"></span>
+        <form asp-action="CreatePlayer" asp-controller="Player" method="post">
+            <div class="row">
+                <!-- Sol taraf form elemanları -->
+                <div class="col-lg-6 col-md-12">
+                    <div class="form-floating mb-3">
+                        <input asp-for="Name" class="form-control" id="floatingInput" placeholder="Ad">
+                        <label asp-for="Name">Ad</label>
                     </div>
-                    <div class="mb-3">
-                        <label asp-for="Surname" class="form-label">Soyad:</label>
-                        <input asp-for="Surname" class="form-control" />
-                        <span asp-validation-for="Surname" class="text-danger"></span>
+                    <div class="form-floating mb-3">
+                        <input asp-for="Surname" class="form-control" id="floatingInput" placeholder="Surname">
+                        <label asp-for="Surname">Soyad</label>
                     </div>
-                    <div class="mb-3">
-                        <label asp-for="BornDate" class="form-label">Doğum Tarihi:</label>
-                        <input asp-for="BornDate" class="form-control" />
-                        <span asp-validation-for="BornDate" class="text-danger"></span>
+                    <div class="form-floating mb-3">
+                        <input asp-for="Email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                        <label asp-for="Email">E-Posta Adresi</label>
                     </div>
-                    <div class="mb-3">
-                        <label asp-for="Phone" class="form-label">GSM:</label>
-                        <input asp-for="Phone" class="form-control" />
-                        <span asp-validation-for="Phone" class="text-danger"></span>
+                    <div class="form-floating mb-3">
+                        <input asp-for="Phone" class="form-control" id="floatingInput" placeholder="Phone">
+                        <label asp-for="Phone">Telefon Numarası</label>
                     </div>
-
-                    <div class="mb-3">
-                        <label asp-for="Address" class="form-label">Adres: </label>
-                        <textarea asp-for="Address" class="form-text" placeholder="Adres belirtiniz..." rows="2"></textarea>
+                    <div class="form-floating mb-3">
+                        <textarea asp-for="Address" class="form-control" placeholder="Adres" id="floatingTextarea"></textarea>
+                        <label asp-for="Address" for="floatingTextarea2">Adres</label>
                     </div>
-
-                    <div class="mb-3">
-                        <label asp-for="Licance" class="form-label">Lisans Durumu:</label>
-                        <select asp-for="Licance" class="form-select" aria-label="Small select example">
-                            <option class="fs-6" disabled selected>Seçiniz...</option>
+                    <div class="mb-3 d-flex justify-content-center align-items-center">
+                        <label style="width: 30%" asp-for="BornDate" for="floatingInput">Doğum Tarihi:</label>
+                        <input asp-for="BornDate" class="form-control" placeholder="Doğum Tarihi" />
+                    </div>
+                    <!-- Soyad, Doğum Tarihi, GSM, ve diğer sol taraf form elemanları buraya -->
+                </div>
+                <!-- Sağ taraf form elemanları -->
+                <div class="col-lg-6 col-md-12">
+                    <div class="form-floating mb-3">
+                        <select asp-for="Licance" class="form-select" id="floatingSelect" aria-label="Floating label select example">
+                            <option disabled selected>Seçin...</option>
                             <option value="Var">Var</option>
                             <option value="Yok">Yok</option>
-                            <option value="Filizlenmesi Gerek">Filiz</option>
-                            <option value="Transferi Yapılacak">Transfer</option>
+                            <option value="Filizlenecek">Filiz</option>
+                            <option value="Transfer yapılacak">Transfer</option>
                         </select>
+                        <label for="floatingSelect">Lisans Durumu</label>
                     </div>
+                    <div class="form-floating mb-3">
+                        <input asp-for="IdentificationNumber" class="form-control" id="floatingInput" placeholder="T.C Kimlik Numarası">
+                        <label asp-for="IdentificationNumber">T.C Kimlik No</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <textarea asp-for="Note" class="form-control" placeholder="Not" id="floatingTextarea"></textarea>
+                        <label asp-for="Note" for="floatingTextarea2">Not</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <div class="form-check form-switch mb-3 mt-3 me-3">
+                            <input asp-for="Kvkk" class="form-check-input" />
+                            <label asp-for="Kvkk" for="floatingInput">Kvkk</label>
+                        </div>
+                    </div>
+
+                   
+
+                    <div class="d-grid gap-2 mt-4 text-center">
+                        <button type="submit" class="btn btn-danger">İlerle</button>
+                    </div>
+                    <!-- Not, T.C Kimlik No, Kullandığı Ayak, ve diğer sağ taraf form elemanları buraya -->
                 </div>
-
-
-                <div style="float: right;" class="col-5 offset-1">
-
-                    <div class="mb-3">
-                        <label asp-for="Email" class="form-label">E-Mail:</label>
-                        <input asp-for="Email" class="form-control" />
-                        <span asp-validation-for="Email" class="text-danger"></span>
-                    </div>
-
-                    <div class="mb-3">
-                        <label asp-for="Note" class="form-label">Not: </label>
-                        <input asp-for="Note" class="form-control" placeholder="Belirtmek istediğiniz not var ise giriniz..." />
-                        <span asp-validation-for="Note" class="text-danger"></span>
-                    </div>
-
-                    <div class="mb-3">
-                        <label asp-for="IdentificationNumber" class="form-label">T.C Kimlik No:</label>
-                        <input asp-for="IdentificationNumber" class="form-control" />
-                        <span asp-validation-for="IdentificationNumber" class="text-danger"></span>
-                    </div>
-
-                    <div class="mb-3">
-                        <label asp-for="Foot" class="form-label">Kullandığı Ayak:</label>
-                        <select asp-for="Foot" class="form-select" aria-label="Small select example">
-                            <option class="fs-6" disabled selected>Seçiniz...</option>
-                            <option value="Sağ">Sağ</option>
-                            <option value="Sol">Sol</option>
-                        </select>
-                    </div>
-
-                    <div class="form-check form-switch mb-3">
-                        <input asp-for="MailPermission" class="form-check-input" />
-                        <label asp-for="MailPermission" class="form-check-label">Mail İzni:  </label>
-                        <span asp-validation-for="MailPermission" class="text-danger"></span>
-                    </div>
-
-                    <div class="form-check form-switch mb-3">
-                        <label asp-for="SmsPermission" class="form-check-label">Sms İzni:  </label>
-                        <input asp-for="SmsPermission" class="form-check-input" />
-                        <span asp-validation-for="SmsPermission" class="text-danger"></span>
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-danger">İlerle</button>
-            </form>
-        </div>
+        </form>
     </div>
 </div>
-
-
-
-
-
-
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

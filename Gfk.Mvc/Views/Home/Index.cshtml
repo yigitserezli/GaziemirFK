@@ -1,1 +1,18 @@
-﻿<partial name="~/Views/Shared/Partials/_HeaderPartial.cshtml"/>
+﻿<partial name="~/Views/Shared/Partials/_HeaderPartial.cshtml" />
+<script>// Sayfa tamamen yüklendiğinde çalışacak fonksiyon
+  window.addEventListener('DOMContentLoaded', (event) => {
+    // Footer elementini seç
+    var footer = document.querySelector('.sticky-bottom');
+
+    // Footer mevcutsa ve 'sticky-bottom' sınıfına sahipse
+    if (footer && footer.classList.contains('sticky-bottom')) {
+      // 'sticky-bottom' sınıfını kaldır
+      footer.classList.remove('sticky-bottom');
+
+      // 'fixed-bottom' sınıfını ekle
+      footer.classList.add('fixed-bottom');
+    }
+  });</script>
+
+
+<!--Bootsrap CDN-->

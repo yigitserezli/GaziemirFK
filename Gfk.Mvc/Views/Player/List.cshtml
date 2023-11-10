@@ -1,142 +1,134 @@
 ﻿@using Gfk.Mvc.Models.Entities
-@model List<PlayerEntity>
+@model PlayerPaginationViewModel<PlayerEntity>
 
-<h2>Oyuncu Bilgi Listesi</h2>
+@{
+    Layout = "~/Views/Shared/_LayoutList.cshtml";
+}
 
-<div class="d-flex justify-content-end">
-    <a asp-controller="Home" asp-action="CreatePlayer" class="btn btn-danger">
-        <i id="pageButtonsFonts" class="fa-solid fa-user-plus fa-lg" style="color: #ffffff;"> YENI KAYIT</i>
-    </a>
-</div>
-<div class="container">
-    <table class="table text-white">
-        <thead>
-            <tr>
-                <th>Ad - Soyad</th>
-                <th>Telefon</th>
-                <th>Yaş Kategorisi</th>
-                <th>Doğum Tarihi</th>
-                <th>Seçenekler</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var player in Model)
-            {
-                <tr>
-                    <td>@player.Name @player.Surname</td>
-                    <td>@player.Phone</td>
-                    <td>@player.Category</td>
-                    <td>@player.BornDate.ToString("dd/MM/yyyy")</td>
-                    <td>@player.UptadetAt.ToString("dd/MM/yyyy - HH/mm/ss")</td>
-                    <td>
-                        <a asp-controller="Player" asp-action="Detail" asp-route-id="@player.Id"©><span class="badge rounded-pill text-bg-danger">Detay</span></a>
-                        <a asp-controller="Parent" asp-action="CreateParent" asp-route-id="@player.Id"><span class="badge rounded-pill text-bg-danger">Düzenle</span></a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
+<section id="team" class="team_area section-padding">
+    <div class="container">
 
+        <!-- Filtreleme Formu -->
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="container bg-light rounded  mt-3 mb-3" style="--bs-bg-opacity: .3;">
-                    <section class="py-5 col-md-9 offset-md-1">
-                        <div class="container px-4 px-lg-5 my-5">
-                            <div class="row gx-4 gx-lg-5 align-items-center justify-content-center">
-                                <div class="col-md-5 col-5"><img class="card-img-top mb-5 mb-md-0 rounded-circle border border-danger" src="https://picsum.photos/600/600"/></div>
-                                <div class="col-md-6 col-7">
-                                    <div id="category" class="small mb-1 ms-1"></div>
-                                    <h1 id="nameSurname" class="display-5 fw-bolder"></h1>
-                                    <div class="fs-5 mb-5 ms-1">
-                                        <span id="phone"></span>
-                                    </div>
-                                    <dl class="dl-horizontal">
-                                        <dt class="col-sm-9">Doğum Tarihi</dt>
-                                        <dd id="bornDate" class="col-sm-9"></dd>
-
-                                        <dt class="col-sm-9">E-Posta Adresi</dt>
-                                        <dd id="email" class="col-sm-9"></dd>
-
-                                        <dt class="col-sm-3">Lisans</dt>
-                                        <dd id="licance" class="col-sm-9"></dd>
-
-                                        <dt class="col-sm-9">Son Güncelleme Tarihi</dt>
-                                        <dd id="uptadetAt" class="col-sm-9"></dd>
-                                    </dl>
-                                    <div class="d-flex">
-                                        <div class="btn-group dropend">
-                                            <button type="button" class="btn btn-danger btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                                İşlemler
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="#">Aidat Hatırlat</a></li>
-                                                <li><a class="dropdown-item" href="#">Sms Gönder</a></li>
-                                                <li><a class="dropdown-item" href="#">E-Posta Gönder</a></li>
-                                                <li><a class="dropdown-item" href="#">Fotoğraf Ekle</a></li>
-                                                <li><a class="dropdown-item" href="#">Fotoğraf Güncelle</a></li>
-                                            </ul>
-                                        </div>
-                                        <button type="button" class="btn btn-danger btn-sm ms-1">Güncelle</button>
-                                        <button type="button" class="btn btn-danger btn-sm ms-1">Kaydı Sil</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
+        <form class="d-flex justify-content-center mb-3" asp-controller="Player" asp-action="List" method="get" class="form-inline">
+            <div class="row justify-content-center mb-3">
+                <div class="col-6 col-md-3 form-group mb-2">
+                    <input class="form-control text-center" asp-for="SearchString" placeholder="Ara...">
+                </div>
+                <div class="col-6 col-md-3 form-group mb-2">
+                    <select class="form-select text-center" asp-for="Category">
+                        <option class="dropdown-item" disabled selected>Kategori Seç...</option>
+                        <option value="A Takım">A-Takım</option>
+                        <option value="U-18">U-18</option>
+                        <option value="U-17">U-17</option>
+                        <option value="U-16">U-16</option>
+                        <option value="U-15">U-15</option>
+                        <option value="U-14">U-14</option>
+                        <option value="U-13">U-13</option>
+                        <option value="U-12">U-12</option>
+                        <option value="U-11">U-11</option>
+                        <option value="Minik">Minik</option>
+                        <!-- Kategori değerlerinizi buraya ekleyin -->
+                    </select>
+                </div>
+                <div class="col-6 col-md-3 form-group mb-2">
+                    <select class="form-select text-center" asp-for="Licance">
+                        <option class="dropdown-item" disabled selected>Lisans Durumu...</option>
+                        <option value="Var">Var</option>
+                        <option value="Yok">Yok</option>
+                        <option value="Filizlenmesi Gerek">Filiz</option>
+                        <option value="Transferi Yapılacak">Transfer</option>
+                        <!-- Lisans durumu değerlerinizi buraya ekleyin -->
+                    </select>
+                </div>
+                <div class="col-6 col-md-3 form-group mb-2">
+                    <select class="form-select text-center" name="Foot">
+                        <option class="dropdown-item" disabled selected>Ayak...</option>
+                        <option value="Sağ">Sağ</option>
+                        <option value="Sol">Sol</option>
+                        <!-- Ayak tercihlerinizi buraya ekleyin -->
+                    </select>
                 </div>
 
+                <!-- Diğer filtreleme seçenekleri eklenebilir -->
+                <div class="d-flex w-100">
+                    <div class="d-grid form-group mb-2 w-50 me-2">
+                        <button type="submit" class="btn btn-light">Filtrele</button>
+                    </div>
+                    <div class="d-grid form-group mb-2 w-50 ms-2">
+                        <button type="reset" class="btn btn-danger">Sıfırla</button>
+                    </div>
+                </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
-    </div>
-</div>
+        </form>
 
 
 
-@*<script>$('#exampleModal').on('show.bs.modal', function (event) {
-        
-        var button = $(event.relatedTarget);
-        var playerId = button.data('player-id'); // Tıklanan oyuncunun ID'sini al
 
-        // AJAX isteği yaparak oyuncu detaylarını al
-        $.ajax({
-            url: '/Home/Detail' + playerId, // GetPlayerDetails action'ının URL'si
-            type: 'GET',
-            dataType: 'json', // Gelen veri tipi JSON
-            success: function (data) {
-                // AJAX isteği başarılı olduğunda, modal içerisine verileri yerleştir
-                $('#nameSurname').text(data.name + ' ' + data.surname);
-                $('.modal-body img').attr('src', data.imageUrl);
-                $('#phone').text(data.phone);
-                $('#email').text(data.email);
-                $('.modal-title').text(data.identification);
-                $('#category').text(data.category);
-                $('#bornDate').text(data.bornDate);
-                $('.modal-title').text(data.note);
-                $('#licance').text(data.licance);
-                $('.modal-title').text(data.address);
-                $('.modal-title').text(data.foot);
-                $('#uptadetAt').text(data.uptadetAt);
-                $('.modal-title').text(data.mailPermission);
-                $('.modal-title').text(data.smsPermission);
 
-                // Diğer verileri de modal içerisine yerleştir
-            },
-            error: function () {
-                console.log('Veri çekme hatası');
+        <!-- Oyuncu Kartları -->
+        <div class="row text-center mb-3">
+            @foreach (var player in Model.Items)
+            {
+                <div class="col-lg-2 col-sm-4 col-xs-12 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.1s" data-wow-offset="0" style="visibility: visible; animation-duration: 1s; animation-delay: 0.1s; animation-name: fadeInUp;">
+                    <div class="our-team mb-3">
+                        <div class="single-team">
+                            <img src="https://picsum.photos/120/120" class="img-fluid" alt="">
+                            <h3>@player.Name @player.Surname</h3>
+                            <p>@player.Category</p>
+                        </div>
+                        <ul class="social">
+                            <li><a asp-controller="Player" asp-action="Detail" asp-route-id="@player.Id" class="fa fa-info facebook"></a></li>
+                            <li><a asp-controller="Player" asp-action="Update" asp-route-id="@player.Id" class="fa fa-pencil twitter"></a></li>
+                            <li><a asp-controller="Player" asp-action="Delete" asp-route-id="@player.Id" class="fa fa-trash google"></a></li>
+                        </ul>
+                    </div><!--- END OUR TEAM -->
+                </div><!--- END COL -->
             }
+        </div><!--- END ROW -->
+        <!-- Sayfalama -->
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center mb-5">
+                <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
+                    <a class="page-link" asp-action="List" asp-route-page="@(Model.CurrentPage - 1)" aria-label="Önceki">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                @for (int i = 1; i <= Model.TotalPages; i++)
+                {
+                    <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                        <a class="page-link" asp-action="List" asp-route-page="@i">@i</a>
+                    </li>
+                }
+                <li class="page-item @(Model.CurrentPage >= Model.TotalPages ? "disabled" : "")">
+                    <a class="page-link" asp-action="List" asp-route-page="@(Model.CurrentPage + 1)" aria-label="Sonraki">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav><!--- END PAGINATION -->
+    </div><!--- END CONTAINER -->
+</section>
+
+<script type="text/javascript">document.addEventListener('DOMContentLoaded', function () {
+        var resetButton = document.querySelector('button[type="reset"]');
+        var form = resetButton.closest('form'); // Form elementini bul
+
+        resetButton.addEventListener('click', function (e) {
+            e.preventDefault(); // Varsayılan reset davranışını engelle
+
+            // Input text alanlarını sıfırla
+            form.querySelectorAll('input[type="text"]').forEach(function (input) {
+                input.value = '';
+            });
+
+            // Select alanlarını ilk seçeneğe sıfırla (varsayılan olarak kabul edilir)
+            form.querySelectorAll('select').forEach(function (select) {
+                select.selectedIndex = 0;
+            });
+
+            // Formu yeniden gönder
+            form.submit();
         });
-    });</script>*@
+    });</script>
+

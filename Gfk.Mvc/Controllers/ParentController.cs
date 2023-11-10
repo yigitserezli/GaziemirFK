@@ -14,7 +14,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Gfk.Mvc.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class ParentController : Controller
     {
         public AppDbContext _dbContext { get; }
